@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.eu.luolei.compatition_ex.mapper.ToolMapper">
+    <resultMap id="toolCategoryResult" type="ToolCategory">
+        <id property="id" column="category_id"/>
+        <result property="name" column="category_name"/>
+    </resultMap>
+
+    <resultMap id="toolVendorResult" type="ToolVendor">
+        <id property="id" column="vendor_id"/>
+        <result property="name" column="vendor_name"/>
+    </resultMap>
+
+    <resultMap id="toolResult" type="Tool" autoMapping="true">
+        <association property="toolCategory" resultMap="toolCategoryResult"/>
+        <association property="toolVendor" resultMap="toolVendorResult"/>
+    </resultMap>
+
+    <sql id="query">
+        select t.*,
+        tc."name" category_name,
+        tv."name" vendor_name
+        from tool t
+        left join tool_category tc
+        on t.category_id = tc.id
+        left join tool_vendor tv
+        on t.vendor_id = tv.id
+    </sql>
+
+    <select id="list" resultMap="toolResult">
+        <include refid="query"/>
+    </select>
+
+    <select id="getToolById" parameterType="int" resultMap="toolResult">
+        <include refid="query"/>
+        <where>
+            t.id = #{id}
+        </where>
+    </select>
+
+</mapper>

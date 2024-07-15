@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: competition-ex
+  datasource:
+    username: postgres
+    password: 3843831
+    url: jdbc:postgresql://localhost:5432/postgres
+  jackson:
+    default-property-inclusion: non_null
+
+mybatis-plus:
+  mapper-locations:
+    - classpath:/mapper/*.xml
+  type-aliases-package: org.eu.luolei.compatition_ex.pojo
+  global-config:
+    db-config:
+      id-type: AUTO
+      schema: public
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    call-setters-on-nulls: true
